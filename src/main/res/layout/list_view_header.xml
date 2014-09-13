@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="200dp"
+               android:background="#F00"
+               android:id="@+id/list_header_nonBlurredImageView"
+               android:scaleType="fitXY"/>
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="200dp"
+               android:alpha="0"
+               android:background="#0F0"
+               android:id="@+id/list_header_blurredImageView"
+               android:scaleType="fitXY"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="50dp"
+              android:background="@drawable/title_gradient"
+              android:id="@+id/list_view_header_title"
+              android:textSize="16sp"
+              tools:text = "Title With Blur"
+              android:textColor="#FFF"
+              android:layout_alignBottom="@id/list_header_blurredImageView"/>
+</merge>
