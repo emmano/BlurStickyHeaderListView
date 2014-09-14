@@ -7,7 +7,11 @@ It is a custom `ListView` with a header that displays pictures from an URL. It t
 
 ###How do I use the thing?
 
-Add `compile 'me.emmano:blurstickyheaderlistview:0.1.3'` to the `dependencies{}` in your build.gradle.
+Add `compile 'me.emmano:blurstickyheaderlistview:0.1.3'` to the `dependencies{}` in your build.gradle. If you do not aleady have `jcenter()` added to your project, do so by adding the following to build.gradle:
+
+    repositories {
+        jcenter()
+    }
 
 
 `BlurStickyHeaderListView` is pretty straight forward to use. You have two alternatives:
