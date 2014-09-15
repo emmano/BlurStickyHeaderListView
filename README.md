@@ -85,3 +85,6 @@ public class MyActivity extends FragmentActivity {
     }
 }
 ```
+###Limitations
+
+1. `controlActionBar()` only works on when the ActionBar is used on overlay mode for now.
