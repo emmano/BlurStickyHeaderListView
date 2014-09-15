@@ -12,8 +12,13 @@ Add `compile 'me.emmano:blurstickyheaderlistview:0.1.3'` to the `dependencies{}`
     repositories {
         jcenter()
     }
+You also need to add renderscript to your project. If using android studio add the following to `defaultConfig{}` inside build.gradle:
 
-
+    defaultConfig {
+        //Other config...
+        renderscriptTargetApi 19
+        renderscriptSupportMode true
+    }
 `BlurStickyHeaderListView` is pretty straight forward to use. You have two alternatives:
 
 1. Using BlurListFragment.
