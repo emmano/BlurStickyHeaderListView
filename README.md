@@ -88,4 +88,4 @@ public class MyActivity extends FragmentActivity {
 ```
 ###Limitations
 
-1. `controlActionBar()` only works on when the ActionBar is used on overlay mode for now.
+1. In order for this library to work, you need to set your `ActionBar` to overlay mode. Go [here](https://developer.android.com/training/basics/actionbar/overlaying.html#EnableOverlay) for steps on how to set your `ActionBar` to overlay mode. 
