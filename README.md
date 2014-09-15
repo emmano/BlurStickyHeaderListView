@@ -54,12 +54,13 @@ public class MyActivity extends FragmentActivity {
         if (savedInstanceState == null) {
             final ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Arrays.asList(DUMMY_TEXT, DUMMY_TEXT));
             
-            final BlurListFragment blurListFragment = new BlurListFragment();
+          final BlurListFragment blurListFragment = new BlurListFragment();
             //Set up the BlurListFragment before you call FragmentTransaction.commit() methods called after commit() will do nothing.
-            
+            blurListFragment.controlActionBar(true);
+            blurListFragment.setEnableLoggigng(true);
+            blurListFragment.loadHeaderImage("http://creationview.com/image/obj600geo571pg41p11.jpg",R.drawable.ic_launcher);
             blurListFragment.setBlurHeaderListAdapter(listAdapter);
             blurListFragment.shouldTitleStick(true);
-            blurListFragment.controlActionBar(true);
             getSupportFragmentManager().beginTransaction().add(R.id.container, blurListFragment,BlurListFragment.class.getSimpleName()).commit();
 
         }
