@@ -58,7 +58,7 @@ public class MyActivity extends FragmentActivity {
             //Set up the BlurListFragment before you call FragmentTransaction.commit() methods called after commit() will do nothing.
             blurListFragment.controlActionBar(true);
             blurListFragment.setEnableLoggigng(true);
-            blurListFragment.loadHeaderImage("http://creationview.com/image/obj600geo571pg41p11.jpg",R.drawable.ic_launcher);
+            blurListFragment.loadHeaderImage("http://someimage",R.drawable.ic_launcher);
             blurListFragment.setBlurHeaderListAdapter(listAdapter);
             blurListFragment.shouldTitleStick(true);
             getSupportFragmentManager().beginTransaction().add(R.id.container, blurListFragment,BlurListFragment.class.getSimpleName()).commit();
