@@ -2,6 +2,7 @@ package com.emmano.blurstickyheaderlistviewlib.fragment;
 
 import com.emmano.blurstickyheaderlistviewlib.R;
 import com.emmano.blurstickyheaderlistviewlib.view.BlurListView;
+import com.squareup.picasso.RequestCreator;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,6 +39,8 @@ public class BlurListFragment extends Fragment {
 
     private boolean enableLoggigng;
 
+    private RequestCreator picassoCreator;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
@@ -61,6 +64,9 @@ public class BlurListFragment extends Fragment {
         if (imageUrl != null) {
             blurList.loadHeaderImage(imageUrl, placeholderResourceId, enableLoggigng,
                     picDimens);
+        }
+        if (picassoCreator != null) {
+            blurList.loadHeaderImage(picassoCreator);
         }
 
         if (listAdapter != null) {
@@ -87,6 +93,9 @@ public class BlurListFragment extends Fragment {
         this.imageUrl = imageUrl;
         this.placeholderResourceId = placeholderResourceId;
         this.picDimens = picDimens;
+    }
+    public void loadHeaderImage(RequestCreator picassoCreator) {
+        this.picassoCreator = picassoCreator;
     }
 
     public void setTitle(String title) {

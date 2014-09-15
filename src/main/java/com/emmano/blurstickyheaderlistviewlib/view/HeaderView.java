@@ -4,6 +4,7 @@ package com.emmano.blurstickyheaderlistviewlib.view;
 import com.emmano.blurstickyheaderlistviewlib.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -81,6 +82,12 @@ public class HeaderView extends RelativeLayout implements Callback {
         }
 
     }
+
+    public void loadHeaderImage(RequestCreator picasso
+    ) {
+        picasso.into(nonBlurredImageView, this);
+    }
+
 
     public void setHeaderParallax(int parallaxMultiplier) {
         blurredImageView.setTop(-getTop() / parallaxMultiplier);
