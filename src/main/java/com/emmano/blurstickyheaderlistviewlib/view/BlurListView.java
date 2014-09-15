@@ -1,12 +1,19 @@
 package com.emmano.blurstickyheaderlistviewlib.view;
 
+import com.squareup.picasso.RequestCreator;
+
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+
+import java.io.File;
 
 /**
  * Created by emmanuelortiguela on 9/12/14.
@@ -33,6 +40,7 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
 
 
     public void controlActionbar(ActionBar actionBar) {
+
         this.actionbar = actionBar;
     }
 
@@ -42,6 +50,9 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
     }
 
     private void init() {
+        if(!windowActionBarOverlay()){
+            throw new IllegalStateException("Your ActionBar has to be set to overlay mode to use this library");
+        }
         createHeaderView();
         super.addHeaderView(headerView);
         setOnScrollListener(this);
@@ -95,12 +106,24 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
     private void setParallax() {
         headerView.setHeaderParallax(2);
         if (actionbar != null) {
+
             if (headerView.blurredViewAtTop()) {
                 actionbar.show();
             } else {
                 actionbar.hide();
             }
         }
+    }
+    private boolean windowActionBarOverlay() {
+        TypedValue attributeValue = new TypedValue();
+        final Resources.Theme theme = getContext().getTheme();
+        theme.resolveAttribute(android.R.attr.actionBarStyle, attributeValue, true);
+
+        TypedArray a = theme.obtainStyledAttributes(attributeValue.data, new int[] {android.R.attr.windowActionBarOverlay});
+        boolean isOverlaid = a.getBoolean(0, false);
+        a.recycle();
+
+        return isOverlaid;
     }
 
     private void configureStickyTitle() {
@@ -112,8 +135,12 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
         throw new UnsupportedOperationException("No custom headers allowed.");
     }
 
-    public void loadHeaderImage(String imageUrl, Integer placeHolderResourceId, boolean enableLogging, 
+    public void loadHeaderImage(String imageUrl, Integer placeHolderResourceId, boolean enableLogging,
             Integer... imageDimns) {
         headerView.loadHeaderImage(imageUrl, placeHolderResourceId,enableLogging, imageDimns);
     }
+    public void loadHeaderImage(RequestCreator picassoCreator) {
+        headerView.loadHeaderImage(picassoCreator);
+    }
+
 }
