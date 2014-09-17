@@ -57,7 +57,10 @@ public class MyActivity extends FragmentActivity {
           final BlurListFragment blurListFragment = new BlurListFragment();
             //Set up the BlurListFragment before you call FragmentTransaction.commit() methods called after commit() will do nothing.
             blurListFragment.controlActionBar(true);
-            blurListFragment.setEnableLoggigng(true);
+            blurListFragment.setEnableLogging(true);
+            
+            // For more image configuration stuff BlurListFragment.loadHeaderImage(RequestCreator picassoCreator) could be used
+
             blurListFragment.loadHeaderImage("http://someimage",R.drawable.ic_launcher);
             blurListFragment.setBlurHeaderListAdapter(listAdapter);
             blurListFragment.shouldTitleStick(true);

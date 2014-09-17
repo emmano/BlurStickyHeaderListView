@@ -110,7 +110,7 @@ public class BlurListFragment extends Fragment {
         this.articleId = articleId;
     }
 
-    public void setEnableLoggigng(boolean enableLoggigng) {
+    public void setEnableLogging(boolean enableLoggigng) {
         this.enableLoggigng = enableLoggigng;
     }
 }
