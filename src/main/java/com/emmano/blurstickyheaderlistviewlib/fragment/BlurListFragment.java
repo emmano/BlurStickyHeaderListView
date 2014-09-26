@@ -21,8 +21,6 @@ public class BlurListFragment extends Fragment {
 
     private BlurListView blurList;
 
-    private Long articleId;
-
     private boolean shouldControl;
 
     private boolean shouldStick;
@@ -37,9 +35,11 @@ public class BlurListFragment extends Fragment {
 
     private ListAdapter listAdapter;
 
-    private boolean enableLoggigng;
+    private boolean enableLogging;
 
     private RequestCreator picassoCreator;
+
+    private String color;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -62,11 +62,14 @@ public class BlurListFragment extends Fragment {
             blurList.setTitle(title);
         }
         if (imageUrl != null) {
-            blurList.loadHeaderImage(imageUrl, placeholderResourceId, enableLoggigng,
+            blurList.loadHeaderImage(imageUrl, placeholderResourceId, enableLogging,
                     picDimens);
         }
         if (picassoCreator != null) {
             blurList.loadHeaderImage(picassoCreator);
+        }
+        if(color != null){
+            blurList.setActionBarColor(color);
         }
 
         if (listAdapter != null) {
@@ -94,6 +97,7 @@ public class BlurListFragment extends Fragment {
         this.placeholderResourceId = placeholderResourceId;
         this.picDimens = picDimens;
     }
+
     public void loadHeaderImage(RequestCreator picassoCreator) {
         this.picassoCreator = picassoCreator;
     }
@@ -106,11 +110,11 @@ public class BlurListFragment extends Fragment {
         this.listAdapter = listAdapter;
     }
 
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
+    public void setActionBarColor(String color) {
+        this.color = color;
     }
 
-    public void setEnableLogging(boolean enableLoggigng) {
-        this.enableLoggigng = enableLoggigng;
+    public void setEnableLogging(boolean enableLogging) {
+        this.enableLogging = enableLogging;
     }
 }

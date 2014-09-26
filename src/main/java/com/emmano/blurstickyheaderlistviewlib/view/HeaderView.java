@@ -74,8 +74,7 @@ public class HeaderView extends RelativeLayout implements Callback {
                     .resize(imageDimens[0], imageDimens[1])
                     .centerInside()
                     .into(nonBlurredImageView, this);
-        }
-        else{
+        } else {
             picasso.load(imageURL)
                     .placeholder(placeholderResourceId)
                     .into(nonBlurredImageView, this);
@@ -122,11 +121,11 @@ public class HeaderView extends RelativeLayout implements Callback {
         return photo;
     }
 
-    public boolean blurredViewAtTop() {
-        return blurredImageView.getTop() == 0;
+    public boolean blurredViewAtTop(int height) {
+        return blurredImageView.getTop() - height <= 0;
     }
 
-    public void configureStickyTitle() {
+    public void configureStickyTitle(int height) {
         dynamicTitle.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         titleTextView.getHeight()));
@@ -138,7 +137,7 @@ public class HeaderView extends RelativeLayout implements Callback {
         if (parent != null) {
             parent.addView(dynamicTitle);
         }
-        dynamicTitle.setY(0);
+        dynamicTitle.setY(height);
     }
 
     public void setAlpha(float alpha) {
