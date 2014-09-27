@@ -1,4 +1,4 @@
-def VERSION = '0.1.4'
+def VERSION = '0.1.5'
 buildscript {
     repositories {
         jcenter()
@@ -95,7 +95,7 @@ bintray {
 
         version {
             name = VERSION //Bintray logical VERSION name
-            desc = 'Added support for local image loading'
+            desc = 'Added Google+ effect to ActionBar'
             vcsTag = VERSION
         }
     }
