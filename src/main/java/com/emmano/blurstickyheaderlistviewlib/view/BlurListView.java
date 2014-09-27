@@ -6,14 +6,14 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
-
-import java.io.File;
 
 /**
  * Created by emmanuelortiguela on 9/12/14.
@@ -26,33 +26,36 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
 
     private boolean shouldTitleStick = false;
 
-    private ActionBar actionbar;
+    private ActionBar actionBar;
+
+    private ColorDrawable color;
+
+    private int actionBarHeight;
 
     public void shouldTitleStick(boolean shouldTitleStick) {
         this.shouldTitleStick = shouldTitleStick;
     }
-
 
     public BlurListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-
     public void controlActionbar(ActionBar actionBar) {
 
-        this.actionbar = actionBar;
+        this.actionBar = actionBar;
     }
-
 
     public void setTitle(String title) {
         headerView.setTitleText(title);
     }
 
     private void init() {
-        if(!windowActionBarOverlay()){
-            throw new IllegalStateException("Your ActionBar has to be set to overlay mode to use this library");
+        if (!windowActionBarOverlay()) {
+            throw new IllegalStateException(
+                    "Your ActionBar has to be set to overlay mode to use this library");
         }
+        actionBarHeight = getActionBarHeight();
         createHeaderView();
         super.addHeaderView(headerView);
         setOnScrollListener(this);
@@ -79,47 +82,78 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
         if (alpha > 1) {
             alpha = 1;
         }
+        if (actionBar != null) {
+            setActionBarState(alpha);
+        }
         headerView.setAlpha(alpha);
-
-        if (shouldTitleStick) {
-            if (view.getChildAt(1) != null) {
-                final int offset = view.getChildAt(1).getTop() - headerView.getTitleHeight();
-                if (offset <= 0) {
-                    if (!isTitleSticking) {
-                        isTitleSticking = true;
-                        configureStickyTitle();
-                        headerView.setTitleVisibility(false);
-                    }
-                } else if (offset > 0
-                        && getChildAt(getFirstVisiblePosition()) == headerView) {
-                    if (isTitleSticking) {
-                        headerView.removeTitle();
-                    }
-                    isTitleSticking = false;
-                    headerView.setTitleVisibility(true);
-                }
-            }
+        if (shouldTitleStick && view.getChildAt(1) != null) {
+            shouldStickMode(view);
         }
         setParallax();
     }
 
-    private void setParallax() {
-        headerView.setHeaderParallax(2);
-        if (actionbar != null) {
-
-            if (headerView.blurredViewAtTop()) {
-                actionbar.show();
-            } else {
-                actionbar.hide();
+    private void shouldStickMode(AbsListView view) {
+        final int titleHeight = view.getChildAt(1).getTop() - headerView.getTitleHeight();
+        final int offset = color != null ? titleHeight - actionBarHeight
+                : titleHeight;
+        if (offset <= 0) {
+            if (!isTitleSticking) {
+                isTitleSticking = true;
+                configureStickyTitle();
+                headerView.setTitleVisibility(false);
             }
+        } else if (offset > 0
+                && getChildAt(getFirstVisiblePosition()) == headerView) {
+            if (isTitleSticking) {
+                headerView.removeTitle();
+            }
+            isTitleSticking = false;
+            headerView.setTitleVisibility(true);
         }
     }
+
+    private void setActionBarState(float alpha) {
+        if (color != null) {
+            int alpha255 = (int) (alpha * 255);
+            color.setAlpha(alpha255);
+            actionBar.setBackgroundDrawable(color);
+        }
+        if (headerView.blurredViewAtTop(getActionBarHeight())) {
+            actionBar.show();
+        } else if (actionBar.isShowing() && color == null) {
+
+            actionBar.hide();
+        }
+    }
+
+    public void setActionBarColor(String color) {
+        if (actionBar == null) {
+            throw new IllegalStateException(
+                    "You haven't given the library control of the ActionBar. Call either controlActionBar() or setControlActionBar()");
+        }
+        this.color = new ColorDrawable(Color.parseColor(color));
+    }
+
+    private void setParallax() {
+        headerView.setHeaderParallax(2);
+
+    }
+
+    final private int getActionBarHeight() {
+        TypedValue tv = new TypedValue();
+        getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+        int actionBarHeight = TypedValue
+                .complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        return actionBarHeight;
+    }
+
     private boolean windowActionBarOverlay() {
         TypedValue attributeValue = new TypedValue();
         final Resources.Theme theme = getContext().getTheme();
         theme.resolveAttribute(android.R.attr.actionBarStyle, attributeValue, true);
 
-        TypedArray a = theme.obtainStyledAttributes(attributeValue.data, new int[] {android.R.attr.windowActionBarOverlay});
+        TypedArray a = theme.obtainStyledAttributes(attributeValue.data,
+                new int[]{android.R.attr.windowActionBarOverlay});
         boolean isOverlaid = a.getBoolean(0, false);
         a.recycle();
 
@@ -127,7 +161,10 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
     }
 
     private void configureStickyTitle() {
-        headerView.configureStickyTitle();
+        int dynamicTitleHeight = actionBar != null && !actionBar.isShowing() ? 0
+                : getActionBarHeight();
+        headerView.configureStickyTitle(dynamicTitleHeight);
+
     }
 
     @Override
@@ -135,12 +172,13 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
         throw new UnsupportedOperationException("No custom headers allowed.");
     }
 
-    public void loadHeaderImage(String imageUrl, Integer placeHolderResourceId, boolean enableLogging,
+    public void loadHeaderImage(String imageUrl, Integer placeHolderResourceId,
+            boolean enableLogging,
             Integer... imageDimns) {
-        headerView.loadHeaderImage(imageUrl, placeHolderResourceId,enableLogging, imageDimns);
+        headerView.loadHeaderImage(imageUrl, placeHolderResourceId, enableLogging, imageDimns);
     }
+
     public void loadHeaderImage(RequestCreator picassoCreator) {
         headerView.loadHeaderImage(picassoCreator);
     }
-
 }
