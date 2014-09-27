@@ -58,6 +58,7 @@ public class MyActivity extends FragmentActivity {
           final BlurListFragment blurListFragment = new BlurListFragment();
             //Set up the BlurListFragment before you call FragmentTransaction.commit() methods called after commit() will do nothing.
             blurListFragment.controlActionBar(true);
+            blurListFragment.setActionBarColor("#RRGGBB") //adds Google+ effect to ActionBar.
             blurListFragment.setEnableLogging(true);
             
             // For more image configuration stuff BlurListFragment.loadHeaderImage(RequestCreator picassoCreator) could be used
