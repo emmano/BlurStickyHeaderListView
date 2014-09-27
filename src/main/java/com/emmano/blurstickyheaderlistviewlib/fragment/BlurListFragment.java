@@ -18,7 +18,6 @@ import android.widget.ListAdapter;
  */
 public class BlurListFragment extends Fragment {
 
-
     private BlurListView blurList;
 
     private boolean shouldControl;
@@ -79,7 +78,6 @@ public class BlurListFragment extends Fragment {
                     "Adapter not set. Did you forget to call setBlurHeaderListAdapter() before FragmentTransaction.commit()?");
         }
     }
-
 
     public void controlActionBar(boolean shouldControl) {
         this.shouldControl = shouldControl;

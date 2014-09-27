@@ -77,56 +77,52 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
             int visibleItemCount,
             int totalItemCount) {
 
-        float alpha = (float) -headerView.getTop() * 2 / (
+        float alpha = (float) -headerView.getTop() / (
                 headerView.getBottom());
         if (alpha > 1) {
             alpha = 1;
         }
-
-        setActionBarState(alpha);
+        if (actionBar != null) {
+            setActionBarState(alpha);
+        }
         headerView.setAlpha(alpha);
-
-        shouldStickMode(view);
+        if (shouldTitleStick && view.getChildAt(1) != null) {
+            shouldStickMode(view);
+        }
         setParallax();
-
     }
 
     private void shouldStickMode(AbsListView view) {
-        if (shouldTitleStick && view.getChildAt(1) != null) {
-            final int titleHeight = view.getChildAt(1).getTop() - headerView.getTitleHeight();
-            final int offset = color != null ? titleHeight - actionBarHeight
-                    : titleHeight;
-            if (offset <= 0) {
-                if (!isTitleSticking) {
-                    isTitleSticking = true;
-                    configureStickyTitle();
-                    headerView.setTitleVisibility(false);
-                }
-            } else if (offset > 0
-                    && getChildAt(getFirstVisiblePosition()) == headerView) {
-                if (isTitleSticking) {
-                    headerView.removeTitle();
-                }
-                isTitleSticking = false;
-                headerView.setTitleVisibility(true);
+        final int titleHeight = view.getChildAt(1).getTop() - headerView.getTitleHeight();
+        final int offset = color != null ? titleHeight - actionBarHeight
+                : titleHeight;
+        if (offset <= 0) {
+            if (!isTitleSticking) {
+                isTitleSticking = true;
+                configureStickyTitle();
+                headerView.setTitleVisibility(false);
             }
+        } else if (offset > 0
+                && getChildAt(getFirstVisiblePosition()) == headerView) {
+            if (isTitleSticking) {
+                headerView.removeTitle();
+            }
+            isTitleSticking = false;
+            headerView.setTitleVisibility(true);
         }
     }
 
     private void setActionBarState(float alpha) {
-        if (actionBar != null) {
-            if (color != null) {
-                int alpha255 = (int) (alpha * 255);
-                color.setAlpha(alpha255);
-                actionBar.setBackgroundDrawable(color);
-            }
-            if (headerView.blurredViewAtTop(getActionBarHeight())) {
-                actionBar.show();
-            } else if (actionBar.isShowing() && color == null) {
+        if (color != null) {
+            int alpha255 = (int) (alpha * 255);
+            color.setAlpha(alpha255);
+            actionBar.setBackgroundDrawable(color);
+        }
+        if (headerView.blurredViewAtTop(getActionBarHeight())) {
+            actionBar.show();
+        } else if (actionBar.isShowing() && color == null) {
 
-                actionBar.hide();
-            }
-
+            actionBar.hide();
         }
     }
 
@@ -185,5 +181,4 @@ public class BlurListView extends ListView implements AbsListView.OnScrollListen
     public void loadHeaderImage(RequestCreator picassoCreator) {
         headerView.loadHeaderImage(picassoCreator);
     }
-
 }
