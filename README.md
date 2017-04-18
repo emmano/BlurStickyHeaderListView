@@ -2,11 +2,11 @@
 BlurStickyHeaderListView
 ========================
 
-###What is BlurStickyHeaderListView?
+### What is BlurStickyHeaderListView?
 
 It is a custom `ListView` with a header that displays pictures from an URL. It then adds a nice blur/parallax effect to the downloaded picture. It also provides the option of a sticky title. Here is a [video](https://vid.me/bHJ) of it in action.
 
-###How do I use the thing?
+### How do I use the thing?
 
 Add `compile 'me.emmano:blurstickyheaderlistview:0.1.+'` to the `dependencies{}` in your build.gradle. If you do not aleady have `jcenter()` added to your project, do so by adding the following to build.gradle:
 
@@ -92,7 +92,7 @@ public class MyActivity extends FragmentActivity {
     }
 }
 ```
-###Limitations
+### Limitations
 
 1. In order for this library to work, you need to set your `ActionBar` to overlay mode. Go [here](https://developer.android.com/training/basics/actionbar/overlaying.html#EnableOverlay) for steps on how to set your `ActionBar` to overlay mode. 
 
